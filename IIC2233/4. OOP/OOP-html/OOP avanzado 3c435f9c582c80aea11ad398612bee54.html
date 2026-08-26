@@ -1,0 +1,1055 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>OOP avanzado</title><meta name="data-notion-page-icon" content="👔"/><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%91%94%3C%2Ftext%3E%3C%2Fsvg%3E"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c435f9c-582c-80ae-a11a-d398612bee54" class="page sans" data-notion-page-icon="👔"><header><div class="page-header-icon undefined"><span class="icon" data-emoji="👔"></span></div><h1 class="page-title" dir="auto">OOP avanzado</h1><p class="page-description" dir="auto"></p><table class="properties"><tbody><tr class="property-row property-row-checkbox"><th><span class="icon property-icon"><img src="https://app.notion.com/icons/checkmark-square_gray.svg" style="width:14px;height:14px;display:block"/></span>Practica</th><td><input type="checkbox" class="checkbox checkbox-off" disabled=""/></td></tr><tr class="property-row property-row-checkbox"><th><span class="icon property-icon"><img src="https://app.notion.com/icons/checkmark-square_gray.svg" style="width:14px;height:14px;display:block"/></span>Teoria</th><td><input type="checkbox" class="checkbox checkbox-on" disabled="" checked=""/></td></tr></tbody></table></header><div class="page-body"><nav id="3c835f9c-582c-8088-b5cd-f74854934e92" class="block-color-gray table_of_contents" data-notion-highlight="gray" data-notion-toc="" dir="ltr"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c435f9c-582c-80f2-8e38-f87b19b91fdd">Herencia</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c435f9c-582c-8017-85a9-dba738080488">Polimorfismo</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c435f9c-582c-80c3-8a67-f1d196bd56ed">Overloading de operadores en Python</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c435f9c-582c-8033-805c-d20bb8700b25"><code>__repr__</code>  vs <code>__str__</code> </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c435f9c-582c-8077-9eb6-e19cca9d990c"><em>Duck typing</em></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c435f9c-582c-80d4-aaf1-ef2d14b089d6">Multiherencia</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c435f9c-582c-8034-9507-df4b73d9a0ea">Problema del diamante</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c435f9c-582c-80b2-9719-ebeab0813dc0">Método <code>__mro__</code></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c435f9c-582c-8089-b645-c30a7480679d">Cómo implementar correctamente multiherencia</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c435f9c-582c-8016-b55e-d9e9796fea1a">Clases abstractas</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c435f9c-582c-80f1-b2e7-d3ba52b6a4a2">Decoradores</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c535f9c-582c-807a-ab88-ed64cbc00a8b">Objetos de primera clase</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c535f9c-582c-80dd-986f-cb1e43c905ec">Sintaxis de los decoradores</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c535f9c-582c-803a-99f3-ed8d104ca46b">Función <code>property</code> y decorador<code>@property</code></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c535f9c-582c-80b0-92f1-c09bf43e9b06">Métodos estáticos</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c435f9c-582c-807c-b702-c8627bdfc849">Diagrama de clases</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c535f9c-582c-807e-9075-c36e1a24c4a8">Elementos de un diagrama de clases</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3c535f9c-582c-80be-af37-f6af26163636">Clases</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3c535f9c-582c-80df-91c7-fa4e4a954cdc">Relaciones</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3c535f9c-582c-80b3-b1fb-cd1337ebb996">Metaclases</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c735f9c-582c-802f-b0b9-c49df4495d02">Creación de metaclases</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3c735f9c-582c-807a-a363-e7a8357906ce">Método <code>__new__</code> </a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3c735f9c-582c-8000-8014-e3dccb8818ee">Método <code>__init__</code></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c735f9c-582c-80fe-911a-dffff6369fd8">Creación de instancias</a></div></nav><h1 id="3c435f9c-582c-80f2-8e38-f87b19b91fdd" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Herencia</h1><ul id="3c435f9c-582c-8052-9da3-f7723fef1794" class="bulleted-list" dir="auto"><li style="list-style-type:disc">La herencia es una relación de <strong>especialización </strong>y <strong>generalización </strong>entre clases. De tal forma, que una clase (<strong>subclase</strong>) hereda atributos y métodos de otra (<strong>superclase</strong>).<ul id="3c435f9c-582c-8077-a820-f85a1ee489e3" class="bulleted-list" dir="auto"><li style="list-style-type:circle">La subclase posee todos los métodos de la superclase, pero además tiene métodos/atributos propios, que se consideran una especialización.</li></ul></li></ul><details id="3c435f9c-582c-80ad-a800-d91b5e64b9a8" open="" class="toggle" dir="auto"><summary>Terminología</summary><div class="indented"><ul id="3c435f9c-582c-80ac-af4d-c60c026c152f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Si <code>FurgonEscolar</code> <strong>hereda </strong>de <code>Auto</code> , también se dice que:<ul id="3c435f9c-582c-807a-88f0-e13e46a6a44a" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>FurgonEscolar</code> es una <strong>especialización </strong>de la clase <code>Auto</code> </li></ul><ul id="3c435f9c-582c-80de-8cd9-eeb5708e1816" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>FurgonEscolar</code> es una <strong>subclase </strong>(o clase hija) de <code>Auto</code> </li></ul><ul id="3c435f9c-582c-80f4-a25d-e3711411c9bb" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>FurgonEscolar</code>  <strong>extiende </strong>a la clase <code>Auto</code> </li></ul><ul id="3c435f9c-582c-80f0-9a81-ed96b5be8d19" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>Auto</code> es <strong>superclase </strong>(o clase madre) de <code>FurgonEscolar</code></li></ul></li></ul></div></details><details id="3c435f9c-582c-80de-842f-d5edd91a3638" open="" class="toggle" dir="auto"><summary>Para <strong>crear una subclase</strong> hay que especificar la superclase en la declaración de la clase</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c435f9c-582c-8086-801a-db92fdaca4c6" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class SubClase(SuperClase):
+
+# Esto crea una SubClase con todos los atributos y métodos
+# que tiene la SuperClase.</code></pre></div></details><details id="3c435f9c-582c-8033-b533-ce23713e6e15" open="" class="toggle" dir="auto"><summary>Si queremos añadir atributos propios o queremos modificar cómo se inicializa la clase, debemos modificar el método <code>__init__</code></summary><div class="indented"><figure id="3c435f9c-582c-80d8-96d1-e58c5285a46a" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class SubClase(SuperClase):
+    def __init__(self, atrSpC1, atrSpC2, atrSbC):
+		    # La clase almacena los atributos de la SuperClase:
+        SuperClase.__init__(self, atrSpC1, atrSpC2)
+        # Agrega un atributo propio:
+        self.atributo_propio = atrSbC
+    
+    # Agrega un método propio:
+    def metodo_propio(self,n):
+        return n**2
+				</code></pre><figcaption><code>SubClase</code> va a tener todos los atributos y métodos de <code>SuperClase</code> , pero además va a tener ese atributo y ese método propios a ella.</figcaption></figure></div></details><details id="3c435f9c-582c-801c-8626-f16cd0a8082e" open="" class="toggle" dir="auto"><summary><strong>Overriding: </strong>permite que una subclase implemente una versión especializada de un método que es heredado desde una superclase.</summary><div class="indented"><ul id="3c435f9c-582c-80c4-9267-d2ffadd8e60a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Basta con volver a definir el método, usando el mismo nombre que tiene en la superclase.</li></ul></div></details><ul id="3c435f9c-582c-80a0-8272-c30964b4e439" class="bulleted-list" dir="auto"><li style="list-style-type:disc">El método <code><strong>super()</strong></code><strong> </strong>permite la implementación de un método de la superclase sin nombrar explícitamente a la clase superior, de la forma <code>super().metodo(argumentos)</code> <ul id="3c435f9c-582c-80d1-940a-e50139cb104c" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Es una buena práctica para mejorar la lectura y evitar errores por cambiar el nombre de la superclase o multi-herencias.</li></ul></li></ul><details id="3c435f9c-582c-80cd-b503-fe06f883fa38" open="" class="toggle" dir="auto"><summary>Se puede crear una subclase a partir de una clase <strong>built-in</strong> de Python</summary><div class="indented"><pre id="3c435f9c-582c-8005-aae3-ecf2ab20a624" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class ListaDeContactos(list):
+		&quot;&quot;&quot;
+    Tiene todos los métodos de las listas
+    y agrega el método &#x27;buscar&#x27;
+    &quot;&quot;&quot;
+    def buscar(self,nombre):
+        matches = []
+        for contacto in self:
+	          if nombre in contacto.nombre:
+	              matches.append(contacto)
+	          return matches</code></pre></div></details><h1 id="3c435f9c-582c-8017-85a9-dba738080488" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Polimorfismo</h1><ul id="3c435f9c-582c-8022-8b94-e9ea53d02ba0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Polimorfismo: </strong>propiedad por la que es posible enviar mensajes sintácticamente iguales a objetos de tipos distintos.<ul id="3c435f9c-582c-807a-abbd-c8ff4337c00d" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Se trata de utilizar objetos de distinto tipo con la misma interfaz.</li></ul><ul id="3c435f9c-582c-806d-8aaf-f14ac711ebfc" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Mecanismos típicos para proveer polimorfimo<ul id="3c435f9c-582c-8042-aa1b-fb4669fc506e" class="bulleted-list" dir="auto"><li style="list-style-type:square"><strong>Overriding</strong></li></ul><details id="3c435f9c-582c-804b-9be7-f3d11d134df1" open="" class="toggle" dir="auto"><summary><strong>Overloading</strong></summary><div class="indented"><ul id="3c435f9c-582c-8069-a49c-fcf7d21e8367" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Capacidad de definir un método con el mismo nombre, pero con distinta cantidad y tipo de parámetros.</li></ul><ul id="3c435f9c-582c-8000-863b-d39e8ca30559" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Capacidad de una función de ejecutar <mark class="highlight-red" data-notion-highlight="red"><strong>distintas acciones</strong></mark><strong> dependiendo del tipo y número de argumentos</strong> que recibe.</li></ul></div></details></li></ul></li></ul><aside class="block-color-red_background callout" data-notion-callout="" data-notion-callout-icon="⚠️" data-notion-callout-background="red_background" style="white-space:pre-wrap;display:flex" id="3c435f9c-582c-80db-bd76-eb8e6d1269c6" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="⚠️"></span></div><div style="width:100%"><p id="3c435f9c-582c-80b5-b954-ec4106dba3bd" class="" dir="auto"><span style="border-bottom:0.05em solid">Python no soporta </span><em><span style="border-bottom:0.05em solid">function overloading</span></em><em><br/>-</em> Solo se puede “simular” usando algunos parámetros con valores por defecto o números de parámetros variables.</p></div></aside><h2 id="3c435f9c-582c-80c3-8a67-f1d196bd56ed" class="" dir="auto">Overloading de operadores en Python</h2><ul id="3c435f9c-582c-80c0-8871-ca77b423cd7a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existen muchos operadores en Python que funcionan de forma distinta para cada clase built-in.<ul id="3c435f9c-582c-803e-8032-e5407485488e" class="bulleted-list" dir="auto"><li style="list-style-type:circle">ej. el operador <code>+</code> suma números, pero también concatena strings y mezcla listas.</li></ul></li></ul><details id="3c435f9c-582c-800c-9612-e29e1caed213" open="" class="toggle" dir="auto"><summary>Es posible personalizar la mayoría de operadores, modificando sus métodos respectivos…</summary><div class="indented"><figure id="3c435f9c-582c-809c-b7ff-c698d217b0a2" class="image" data-notion-image="image.png" dir="ltr"><a href="image.png"><img style="width:1263px" src="image.png"/></a></figure></div></details><h2 id="3c435f9c-582c-8033-805c-d20bb8700b25" class="" dir="auto"><code>__repr__</code>  vs <code>__str__</code> </h2><ul id="3c435f9c-582c-8094-9a27-d6140c0ad2b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Retornan una representación en texto (string) para ser usado por <code>print</code> .<ul id="3c435f9c-582c-80f4-adcb-f14a59899a00" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Si se implementa ambos, <code>print</code> utiliza <code>__str__</code></li></ul></li></ul><ul id="3c435f9c-582c-8095-b1a3-c39a978f69d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code><strong>__str__</strong></code> está enfocada en una representación <strong>legible</strong> del objeto (nivel “usuario”), mientras que <code><strong>__repr__</strong></code> es una representación <strong>completa</strong> (nivel “desarrollador”).</li></ul><details id="3c435f9c-582c-8091-97f9-ce419d3b02f1" open="" class="toggle" dir="auto"><summary> <code>__repr__</code>  puede ser usado para mostrar los elementos de una lista</summary><div class="indented"><ul id="3c435f9c-582c-8040-90ac-fa1de54189f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Si implementamos solamente <code>__str__</code>  en nuestra clase,  al imprimir una lista de objetos no nos va a salir lo que deseamos —&gt; <span style="border-bottom:0.05em solid">tenemos</span> que implementar <code>__repr__</code>  para imprimir una lista de objetos.</li></ul></div></details><h2 id="3c435f9c-582c-8077-9eb6-e19cca9d990c" class="" dir="auto"><em>Duck typing</em></h2><blockquote id="3c435f9c-582c-80c7-b067-fd8c3a733e83" class="" dir="auto"><em>“If it walks like a duck and quacks like a duck then it is a duck”<br/>- </em>no importa de qué tipo sea un objeto mientras contenga la acción</blockquote><details id="3c435f9c-582c-80b2-bbaf-fa0b0b2d7883" open="" class="toggle" dir="auto"><summary>Python utiliza un sistema de tipos dinámicos, lo que permite que el tipo de una variable se determine al momento de ejecutar el código (y no al compilarlo ni al escribirlo).</summary><div class="indented"><figure id="3c435f9c-582c-80dc-af10-dc018d6e1821" class="image" data-notion-image="image%201.png" dir="ltr"><a href="image%201.png"><img style="width:192px" src="image%201.png"/></a><figcaption>Si se le pasara como argumento una variable que no tiene esos métodos, entonces sí habría un error.</figcaption></figure></div></details><h1 id="3c435f9c-582c-80d4-aaf1-ef2d14b089d6" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Multiherencia</h1><div id="3c435f9c-582c-80ad-8395-c12f3886b0af" class="column-list" data-notion-column-list="" dir="auto"><div id="3c435f9c-582c-809a-a340-e3bf543bb4ab" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><figure id="3c435f9c-582c-80b0-9ece-e18aad98b67c" class="image" data-notion-image="image%202.png" dir="ltr"><a href="image%202.png"><img style="width:414.65625px" src="image%202.png"/></a><figcaption><strong>Herencia simple</strong></figcaption></figure></div><div id="3c435f9c-582c-80c6-abbc-d296c12373c8" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><figure id="3c435f9c-582c-8001-be54-f2617361d494" class="image" data-notion-image="diagrama_multiherencia.jpg" dir="ltr"><a href="diagrama_multiherencia.jpg"><img style="width:176.3229217529297px" src="diagrama_multiherencia.jpg"/></a><figcaption><strong>Multiherencia</strong></figcaption></figure></div></div><ul id="3c435f9c-582c-80e1-8d41-e91d7ecc57ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Multiherencia: </strong>una subclase puede heredar desde más de una superclase<ul id="3c435f9c-582c-8064-a17f-ccdb45e168ef" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Sigue la forma <code>class SubClase(SuperClase1, SuperClase2):</code> </li></ul></li></ul><ul id="3c435f9c-582c-80cb-b3cb-ddbccda85973" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ventajas: </strong>flexibilidad, reutilización de código y representación de múltiples roles.</li></ul><ul id="3c435f9c-582c-8062-bc55-f9f0164d14cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Desafíos: </strong>ambigüedades/conflictos, MRO (Orden de Resolución de Métodos) y complejidad</li></ul><ul id="3c435f9c-582c-800b-b5e6-d13aca492cab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cuando más de una clase base tienen un método con el mismo nombre, el intérprete de Python decide cuál llamar siguiendo el <strong>MRO</strong><ol type="1" id="3c435f9c-582c-801f-ad10-fed754792b82" class="numbered-list" start="1" dir="auto"><li>Busca en la clase derivada</li></ol><ol type="1" id="3c435f9c-582c-80dd-956a-c2679d372dac" class="numbered-list" start="2" dir="auto"><li>Busca en la primera clase base</li></ol><ol type="1" id="3c435f9c-582c-8035-aec5-caa546608ada" class="numbered-list" start="3" dir="auto"><li>Busca en las clases restantes</li></ol></li></ul><h2 id="3c435f9c-582c-8034-9507-df4b73d9a0ea" class="" dir="auto">Problema del diamante</h2><ul id="3c435f9c-582c-80ad-b41d-ccd9882ffc9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existe una jerarquía de diamante cada vez que tenemos más de un “camino” en la jerarquía desde la clase inferior a una clase superior.<details id="3c435f9c-582c-8067-9bc4-e0be3d51bcd8" open="" class="toggle" dir="auto"><summary>Puede ocurrir por dos superclases que derivan de la misma clase</summary><div class="indented"><figure id="3c435f9c-582c-801b-9f3f-cff1ceb0fee0" class="image" data-notion-image="image%203.png" dir="ltr"><a href="image%203.png"><img style="width:432px" src="image%203.png"/></a><figcaption><code>Anfibio</code>  implementa <code>acelerar</code> , que llama a otro método del mismo nombre en <code>Terrestre</code>  y <code>Acuático</code> . Además, cada una de estas últimas clases también llaman a <code>acelerar</code> con respecto a su superclase, <code>Vehículo.</code> Así, una llamada a <code>acelerar</code> en <code>Anfibio</code> produce dos llamadas a <code>Vehículo</code></figcaption></figure></div></details><details id="3c435f9c-582c-8099-af18-dede18050b0d" open="" class="toggle" dir="auto"><summary>o simplemente porque <strong>una clase deriva de dos clases</strong>, sin necesidad de una tercera superclase.</summary><div class="indented"><ul id="3c435f9c-582c-803f-9c6d-f1dfb57c1ad8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esto ocurre porque Python tiene una clase superior <code><strong>object</strong></code><strong> </strong>de la cual heredan <strong>todas</strong> las clases que creamos.</li></ul><figure id="3c435f9c-582c-8098-8bfd-dad42a741866" class="image" data-notion-image="image%204.png" dir="ltr"><a href="image%204.png"><img style="width:338.6458435058594px" src="image%204.png"/></a><figcaption>Si en la SubClase modificamos el inicializador de tal forma que llama a los iniciadores de las superclases como <code>ClaseA.__init__()</code> y <code>ClaseB.__init__()</code> , entonces se va a <strong>inicializar 2 veces la clase </strong><code><strong>object</strong></code><strong> </strong>❎ ❎</figcaption></figure></div></details></li></ul><ul id="3c435f9c-582c-80a4-af0b-e446bcbeb7bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dependiendo del código, esto podría hacer que se produzcan <strong>acciones repetidas</strong> en la clase superior.</li></ul><ul id="3c435f9c-582c-8081-ad91-de27f494337b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Para evitar errores, la clase debe preocuparse de llamar a inicializar a la clase que la “precede” en el orden del esquema de multiherencia. Esto se logra usando <code><strong>super()</strong></code><strong> </strong><ul id="3c435f9c-582c-805f-939e-fda2ba1aaed1" class="bulleted-list" dir="auto"><li style="list-style-type:circle">El orden de las clases es <strong>izquierda → derecha</strong> dentro de la lista de superclases desde donde hereda la subclase.</li></ul><ul id="3c435f9c-582c-80c1-b09f-ec202562dfd1" class="bulleted-list" dir="auto"><li style="list-style-type:circle">En otras palabras, <code>super()</code> llama a la clase que viene antes según el orden que muestra <code>__mro__</code> .</li></ul></li></ul><h2 id="3c435f9c-582c-80b2-9719-ebeab0813dc0" class="" dir="auto">Método <code>__mro__</code></h2><ul id="3c435f9c-582c-805c-baa8-d8245e5327e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Significa <em><strong>method resolution order.</strong></em><ul id="3c435f9c-582c-8017-8cb6-c8262c6bb425" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Muestra el orden en la jerarquía de clases a partir de la clase actual.</li></ul><ul id="3c435f9c-582c-800e-8c9e-d9cc96007499" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Se basa en el algoritmo C3.</li></ul><details id="3c835f9c-582c-8088-a169-f3b534a3c85a" open="" class="toggle" dir="auto"><summary>Analiza el MRO de este ejemplo</summary><div class="indented"><figure id="3c835f9c-582c-80c6-8050-e8ee7860af02" class="image" data-notion-image="image%205.png" dir="ltr"><a href="image%205.png"><img style="width:192px" src="image%205.png"/></a></figure><details id="3c835f9c-582c-8013-8398-f7d22806fb5b" open="" class="toggle" dir="auto"><summary>Solución</summary><div class="indented"><p id="3c835f9c-582c-8076-a4b9-f3c6e1f27384" class="" dir="auto"><code>M -&gt; A -&gt; X -&gt; B -&gt; Y -&gt; Z -&gt; object</code></p></div></details></div></details></li></ul><ul id="3c435f9c-582c-807f-88dd-fc07b206bf41" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Puede lanzar <code>TypeError</code>  si se crea un esquema de <strong>multiherencia inválido</strong>, es decir, donde no se puede crear un MRO consistente.<details id="3c435f9c-582c-809a-8b08-d60849256e41" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><figure id="3c435f9c-582c-80ee-9374-c3cc01d13429" class="image" data-notion-image="image%206.png" dir="ltr"><a href="image%206.png"><img style="width:132px" src="image%206.png"/></a></figure><details id="3c435f9c-582c-8054-8096-f7e2947cba9c" open="" class="toggle" dir="auto"><summary>Solución</summary><div class="indented"><figure id="3c435f9c-582c-8074-8521-ff9f3c0688c1" class="image" data-notion-image="image%207.png" dir="ltr"><a href="image%207.png"><img style="width:144px" src="image%207.png"/></a></figure></div></details></div></details></li></ul><h2 id="3c435f9c-582c-8089-b645-c30a7480679d" class="" dir="auto">Cómo implementar correctamente multiherencia</h2><ul id="3c435f9c-582c-8002-9e7e-c11f444eff9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Consideraciones</strong><ul id="3c435f9c-582c-806d-81b9-db665c8e0002" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Si ocupamos <code>super()</code> en una clase A que viene antes de una clase B según el MRO, esta va a referenciar dicha clase B.</li></ul><ul id="3c435f9c-582c-801b-ae6b-e74312b37ecd" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Para manejar los parámetros que se le pasan al inicializador de una clase con múltiples superclases, se pueden ocupar diccionarios (<code>**kwargs</code>)</li></ul></li></ul><ul id="3c435f9c-582c-80ed-9bf7-ef29909f1f51" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Protocolo</strong><details id="3c435f9c-582c-805d-967a-ef65c8369ef1" open="" class="toggle" dir="auto"><summary>(1) <strong>Declara los atributos propios</strong> de cada clase en su respectivo inicializador (<code>__init__</code>). Además,  en cada uno de estos, agrega un “captador” para una cantidad variable de argumentos por palabra clave (<code><strong>**kwargs</strong></code> )</summary><div class="indented"><pre id="3c435f9c-582c-804f-8e40-d0d5e6f56b04" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Investigador:
+		def __init__(self, area, **kwargs):
+        ...
+class Docente
+		def __init__(self, departamento, **kwargs):
+        ...
+class Academico(Docente, Investigador):
+		def __init__(self, nombre, oficina, **kwargs): #1
+        ...</code></pre></div></details><details id="3c435f9c-582c-801c-b632-c49b6bd00dce" open="" class="toggle" dir="auto"><summary>(2) Dentro de la definición de cada inicializador, <strong>asigna los valores a los atributos propios.</strong> Además, ocupa <code><strong>super()</strong></code><code>.__init__(**kwargs)</code> para pasarle los otros kwargs a la clase que siga en el MRO.</summary><div class="indented"><pre id="3c435f9c-582c-8025-8da2-d51f2efbb8fb" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Investigador:
+		def __init__(self, area, **kwargs):
+        super().__init__(**kwargs)
+        self.area = area
+        
+class Docente
+		def __init__(self, departamento, **kwargs):
+        super().__init__(**kwargs)
+        self.departamento = departamento
+        
+class Academico(Docente, Investigador):
+		def __init__(self, nombre, oficina, **kwargs): #1
+        super().__init__(**kwargs)
+        self.nombre = nombre</code></pre></div></details><ul id="3c435f9c-582c-807e-ba67-c626ac7b83d3" class="bulleted-list" dir="auto"><li style="list-style-type:circle">(3) Cuando uno instancie la clase lo debe hacer con un <strong>diccionario </strong>que contenga los pares atributos-valores para nuestra clase. De esta forma, el intérprete de Python se va a encargar de recorrer la cadena de clases según el MRO, pasándole a cada clase el atributo que le corresponde. Finalmente, cuando llegue a la última clase, le va a pasar un diccionario <strong>vacío</strong> a la clase <code>object</code>, lo cual está correcto ya que no acepta ningún argumento.</li></ul></li></ul><ul id="3c435f9c-582c-809f-8075-f1ff0b5016ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">⚠️ <strong>Con respecto al paso (3)</strong><ul id="3c435f9c-582c-8018-b6f7-fe7c13c3c269" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Si instancias la clase con la <strong>cantidad exacta de argumentos </strong>(para el total de atributos entre todas las clases que están en la cadena del MRO), entonces el objeto de la clase se va a crear correctamente.</li></ul><ul id="3c435f9c-582c-8017-8d1a-fbfc3af68f67" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Si le pasas menos o más argumentos, te va a lanzar error.<ul id="3c435f9c-582c-80c2-8290-f758e6f8d81a" class="bulleted-list" dir="auto"><li style="list-style-type:square">Si ocupas <strong>valores por defecto, </strong>podrías evitar errores por pasarle <strong>menos argumentos </strong>de los esperados.</li></ul><details id="3c435f9c-582c-8083-8d26-e0c54d06ff1c" open="" class="toggle" dir="auto"><summary>Si creas una <strong>clase </strong><code><strong>Raíz</strong></code><strong>,</strong> de tal forma que sea la última en la cadena del MRO y que capte todos los argumentos que sobran, podrías evitar que le lleguen<strong> argumentos sobrantes</strong> a <code>object</code></summary><div class="indented"><pre id="3c435f9c-582c-80e5-90ff-d58ea381ff47" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class RaizSegura:
+    &quot;&quot;&quot;Clase base que intercepta kwargs sobrantes antes de que lleguen a object.&quot;&quot;&quot;
+    def __init__(self, **kwargs):
+        # Si llegaron kwargs hasta aquí, significa que nadie los reclamó.
+        if kwargs:
+            # Opción 1: Levantar un error claro
+            raise TypeError(f&quot;Error: Se enviaron argumentos inesperados que nadie usó: {kwargs}&quot;)
+            
+            # Opción 2: Solo imprimir una advertencia (si prefieres ser permisivo)
+            # print(f&quot;⚠️ ADVERTENCIA: Argumentos ignorados: {kwargs}&quot;)
+        
+        # ¡La magia ocurre aquí! Llamamos a object sin argumentos.
+        super().__init__()</code></pre></div></details></li></ul></li></ul><h1 id="3c435f9c-582c-8016-b55e-d9e9796fea1a" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Clases abstractas</h1><ul id="3c435f9c-582c-80db-8697-ee98ff9ed7f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Clases abstractas</strong>: clases cuya intención no es ser instanciada, sino que <strong>sirven para modelar otras clases.</strong><ul id="3c435f9c-582c-8001-bf20-cd77ebf19c07" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Contienen 1 o más <strong>métodos abstractos</strong>, los cuales <strong>deben ser sobre-escritos</strong> (implementados) <strong>por sus subclases.</strong></li></ul></li></ul><details id="3c435f9c-582c-80b2-a4d7-d33b8087c399" open="" class="toggle" dir="auto"><summary>Para crear una clase abstracta se ocupa la clase <code><strong>ABC</strong></code> y el decorador <code><strong>abstractmethod</strong></code> , ambos provenientes del módulo <code><strong>abc</strong></code><strong> </strong></summary><div class="indented"><pre id="3c435f9c-582c-80f8-a5bd-c7b709278388" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from abc import ABC, abstractmethod
+
+
+class Base(ABC):          ## al heredar de ABC, la clase Base se define como abstract
+
+    @abstractmethod       ## Esto hace que metodo_1 sea abstracto. Una subclase de Base está obligada a implementarlo.
+    def metodo_1(self):   
+        pass
+
+    @abstractmethod
+    def metodo_2(self):
+        pass
+ 
+ # Una subclase válida* se vería como sigue
+ # *implementa por lo menos todos los métodos abstractos de la superclase abstracta
+ class SubClase1(Base):
+
+    def metodo_1(self):
+        pass
+
+    def metodo_2(self):
+        pass</code></pre><p id="3c435f9c-582c-8041-9166-f0470e039205" class="" dir="auto">
+</p></div></details><ul id="3c435f9c-582c-8074-a7b1-dab32858c80e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Las subclases no necesitan tener sus propias definiciones de los métodos abstractos, también pueden ocupar la definición de la clase abstracta usando <code><strong>super</strong></code><code>()</code> </li></ul><ul id="3c435f9c-582c-8002-ac4d-ca53b6d13a79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Si bien es obligatorio que una subclase implemente todos los métodos abstractos, esta última también <span style="border-bottom:0.05em solid">puede definir sus propios métodos e incluso ocupar métodos no-abstractos</span> de la clase abstracta.</li></ul><h1 id="3c435f9c-582c-80f1-b2e7-d3ba52b6a4a2" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Decoradores</h1><ul id="3c535f9c-582c-80d6-843b-d97899cb18b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Un <strong>decorador </strong>es una función (callable o invocable) que toma otra función como <em>input </em>y retorna una versión modificada de esta última.</li></ul><ul id="3c535f9c-582c-8068-bb8b-ec4ce29b62d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permiten modificar el comportamiento de una función, sin cambiar las líneas de código que la componen.</li></ul><h2 id="3c535f9c-582c-807a-ab88-ed64cbc00a8b" class="" dir="auto">Objetos de primera clase</h2><ul id="3c535f9c-582c-80ab-add4-ca86a6cd6c65" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Las funciones en Python son <strong>objetos de primera clase</strong>, por lo que<ul id="3c535f9c-582c-802e-b46d-f490eeae84b5" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Puedes asignar funciones a variables</li></ul><details id="3c535f9c-582c-80c8-8215-ee90c8b5bab0" open="" class="toggle" dir="auto"><summary>Puedes ocupar funciones como argumentos para otras funciones</summary><div class="indented"><pre id="3c535f9c-582c-8055-bc57-d17d49e801e6" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># función regular que espera un nombre como string y retorna un string
+def decir_hola(nombre: str) -&gt; None:
+    return f&quot;Hola {nombre}&quot;
+
+# función que espera una función como argumento y retorna una función
+def saludar_dani(funcion_saludadora):
+    return funcion_saludadora
+
+saludar = saludar_dani(decir_hola)
+print(saludar(&quot;Dani&quot;))</code></pre></div></details><ul id="3c535f9c-582c-8071-ba7d-ffd73c034df7" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Puedes almacenar funciones en estructuras de datos</li></ul><ul id="3c535f9c-582c-80f9-b635-ff0bd5828b92" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Tienen atributos (puedes agregar o acceder dinámicamente a los atributos de una función)</li></ul></li></ul><aside class="block-color-red_background callout" data-notion-callout="" data-notion-callout-icon="👁️" data-notion-callout-background="red_background" style="white-space:pre-wrap;display:flex" id="3c535f9c-582c-8065-8c34-ea616ff1e3aa" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="👁️"></span></div><div style="width:100%"><p id="3c535f9c-582c-8034-8f98-d258151c38d4" class="" dir="auto"><strong>Ojo</strong><br/>- Un nombre de función sin paréntesis es una <strong>referencia</strong> a una función<br/>- Un nombre de función con paréntesis finales la <strong>llama</strong> y hace referencia a su valor de <strong>retorno</strong>.</p></div></aside><h2 id="3c535f9c-582c-80dd-986f-cb1e43c905ec" class="" dir="auto">Sintaxis de los decoradores</h2><details id="3c535f9c-582c-809b-97f2-c1f711d82b33" open="" class="toggle" dir="auto"><summary>Se pone el símbolo <code>@</code> seguido del nombre del decorador, es decir, <code>@nombre_decorador</code> . Luego, en la línea de abajo empieza la definición de la función que recibe como argumento.</summary><div class="indented"><pre id="3c535f9c-582c-80c4-b627-c7a915e43869" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">#Cuando vemos este código:
+@decorador
+def mi_funcion():
+    pass
+
+######
+
+# Es realmente una abreviación para:
+def mi_funcion():
+    pass
+    
+mi_funcion = decorador(mi_funcion)
+</code></pre></div></details><details id="3c535f9c-582c-807f-9b6c-eb58fee43b63" open="" class="toggle" dir="auto"><summary><strong>Definir un decorador D</strong> sigue el mismo formato que la definición de cualquier otra función, solo que en este caso (1) recibe una función A como argumento y (2) define otra función B que modifique a A, de tal modo que D retorna B.</summary><div class="indented"><pre id="3c535f9c-582c-80c4-b133-c79a6d71bd2f" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def agregar_exclamacion(func):
+    def decorada():
+        return func() + &quot;!&quot;
+    return decorada
+
+@agregar_exclamacion
+def decir_hola():
+    return &quot;Hola&quot;
+
+print(decir_hola())</code></pre></div></details><aside class="block-color-red_background callout" data-notion-callout="" data-notion-callout-icon="✅" data-notion-callout-background="red_background" style="white-space:pre-wrap;display:flex" id="3c535f9c-582c-80fc-a03e-cdd5638f31b6" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="✅"></span></div><div style="width:100%"><p id="3c535f9c-582c-801a-bd3e-d75503c9288e" class="" dir="auto">Las <strong>funciones internas/anidadas </strong>(aquellas definidas al interior de otra función) solo existen dentro de la función externa</p></div></aside><h2 id="3c535f9c-582c-803a-99f3-ed8d104ca46b" class="" dir="auto">Función <code>property</code> y decorador<code>@property</code></h2><ul id="3c535f9c-582c-804f-ac89-e021344a7b8a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">En el paradigma OOP, si uno quiere trabajar con atributos privados, se deben definir métodos específicos para obtener el valor de estos (<strong>getters</strong>) y para actualizar el valor de estos (<strong>setters</strong>).</li></ul><ul id="3c535f9c-582c-805c-acbb-eb6add8f7aa7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code><strong>property(get, set, del)</strong></code><strong> </strong>es una función built-in que crea un atributo administrado en una clase.<ul id="3c535f9c-582c-8015-935a-db66a59278ac" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Permite definir un getter, setter y deleter</li></ul></li></ul><ul id="3c535f9c-582c-8099-aef1-d5ae5fc6971d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">La función se llama como<code>property(fget=None, fset=None, fdel=None)</code> , donde:<ul id="3c535f9c-582c-8077-a290-fe5ee151b5e7" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>fget</code> capta el atributo.</li></ul><ul id="3c535f9c-582c-80a0-8b17-dc12d0b61343" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>fset</code> setea el atributo (le asigna un valor)</li></ul><ul id="3c535f9c-582c-8026-80a3-e935007aee26" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><code>fdel</code>  borra el atributo</li></ul></li></ul><ul id="3c535f9c-582c-80df-a0fe-f80bb11d8641" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Si uno quiere ocupar directamente la <strong>función</strong> <code><strong>property</strong></code><strong>  </strong>para implementar los métodos para un atributo privado, debe poner una línea de la forma <code><strong>variable = property(a,b,c)</strong></code> en la definición de la clase<details id="3c535f9c-582c-80ad-9c94-f9c7f6bba375" open="" class="toggle" dir="auto"><summary>Donde <code>variable</code> es el nombre público que va a recibir el atributo afuera de la clase y <code>a,b,c</code> son nuestras implementaciones de las funciones respectivas.</summary><div class="indented"><p id="3c535f9c-582c-80b5-8394-ddc783eadade" class="" dir="auto">Considere que una instancia es <code>pepa</code> :</p><ul id="3c535f9c-582c-80db-83ea-d4f48624320f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>a</code> se llama cuando accedemos al valor del atributo —&gt; <code>pepa.variable</code> </li></ul><ul id="3c535f9c-582c-80e8-b165-f9ae0469c0c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>b</code>  se llama cuando modificamos el valor del atributo —&gt; <code>pepa.variable = 8</code> </li></ul><ul id="3c535f9c-582c-800f-9a1d-dd4d96ae29cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>c</code>  se llama cuando borramos el atributo —&gt; <code>del pepa.variable</code></li></ul></div></details><details id="3c535f9c-582c-80be-a78a-e56695d27518" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><pre id="3c535f9c-582c-80b6-9d4c-c1212ad9b252" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Circulo:
+    
+    def __init__(self, radio):
+        self._radio = radio  # atributo a proteger, privado
+
+    # Getter para el radio
+    def get_radio(self):
+        print(&quot;Obteniendo el radio...&quot;)
+        return self._radio
+
+    # Setter para el radio, que asegura valores positivos
+    def set_radio(self, value):
+        if value &gt;= 0:
+            self._radio = value
+        else:
+            print(&quot;El radio no puede ser negativo&quot;)
+    
+    # Metodo que retorna el area del circulo
+    def area(self):
+        print(&quot;Obteniendo el área...&quot;)
+        print(&quot;Area:&quot;,3.14 * self._radio ** 2)
+
+    # Definimos propiedades usando property()
+    radio = property(get_radio, set_radio)
+
+c = Circulo(5)
+print(&quot;Radio:&quot;, c.radio)
+c.area()
+
+# Intentamos cambiar el radio a un valor negativo
+c.radio = -3
+c.area()
+
+# Cambiamos el radio a un valor válido
+c.radio = 10
+c.area()</code></pre></div></details></li></ul><ul id="3c535f9c-582c-8067-90bd-e2f7e77135bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alternativamente, se puede ocupar el decorador <code><strong>@property</strong></code><strong> </strong>para <strong>definir un método como un atributo de solo lectura.</strong><ul id="3c535f9c-582c-80e6-b009-fa59a28678ff" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Se pone <code>@property</code> arriba de la definición de la función getter. El nombre de dicho método (ej. <code>nombre_publico</code>) va a ser el nombre que se va a utilizar para acceder al atributo privado afuera de la clase.</li></ul><ul id="3c535f9c-582c-809e-908c-fe1ded485768" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Luego, las implementaciones del setter y el deleter ocupan decoradores de la forma <code>@nombre_publico.setter</code>  y <code>@nombre_publico.deleter</code> </li></ul><details id="3c535f9c-582c-8004-b19f-c09180069242" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><pre id="3c535f9c-582c-801f-b167-d4e3e797d751" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Email2:
+    
+    def __init__(self, address):
+        self._email = address
+    
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
+    def email(self, value):
+        if &#x27;@&#x27; not in value:
+            print(f&quot;El string {value} no parece una dirección de correo.&quot;)
+        else:
+            self._email = value
+            # el setter le asigna un valor al &quot;atributo&quot;
+            
+mail = Email2(&quot;profe1@gmail.com&quot;)
+print(mail.email)
+mail.email = &quot;profe2@gmail.com&quot;
+print(mail.email)
+mail.email = &quot;profe2.com&quot;</code></pre></div></details></li></ul><aside class="block-color-red_background callout" data-notion-callout="" data-notion-callout-icon="📌" data-notion-callout-background="red_background" style="white-space:pre-wrap;display:flex" id="3c835f9c-582c-80ae-aafa-f8616aa01d9a" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="📌"></span></div><div style="width:100%"><p id="3c835f9c-582c-8039-ab2b-d3e5c79c4cbb" class="" dir="auto"><strong>No es necesario poner el atributo privado dentro del constructor </strong><code><strong>__init__</strong></code> . Si uno lo pone en la definición del setter y en el <code>__init__</code> le asigna el argumento a la property, entonces se llama el setter y se le asigna por interno ese valor al atributo privado. Esto permite <strong>controlar los argumentos </strong>que pasemos al instanciar una clase.<div class="indented"><details id="3c835f9c-582c-8086-92b5-f9c0a6846d0e" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><figure id="3c835f9c-582c-80cb-86e2-ca87af6faa97" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Vehiculo(ABC):
+    identificador = 0
+    def __init__(self, rendimiento: int, marca: str, energia: float = 111.5, *args, **kwargs) -&gt; None:
+        super().__init__(*args, **kwargs)
+        self.rendimiento = rendimiento
+        self.marca = marca
+        self.energia = energia
+        self.identificador = Vehiculo.identificador
+        Vehiculo.identificador += 1
+
+    @property
+    def autonomia(self) -&gt; float:
+        kilometros = self.energia * self.rendimiento
+        return float(kilometros)
+
+    @property
+    def energia(self) -&gt; float:
+        return self.energia_privada
+
+    @energia.setter
+    def energia(self, valor) -&gt; None:
+        if valor &lt; 0:
+            self.energia_privada = 0
+        else:
+            self.energia_privada = round(valor, 1)</code></pre><figcaption>El atributo privado <code>energia_privada</code> se asigna a través del setter de la property <code>energia</code> . Así, en el constructor se le pasa el argumento a la property, para que se llame al <strong>setter </strong>y se le asigne el valor a <code>energia_privada</code> . <strong>El nombre del argumento no necesita llamarse igual que la property.</strong></figcaption></figure></div></details></div></p></div></aside><h2 id="3c535f9c-582c-80b0-92f1-c09bf43e9b06" class="" dir="auto">Métodos estáticos</h2><aside class="block-color-red_background callout" data-notion-callout="" data-notion-callout-icon="📌" data-notion-callout-background="red_background" style="white-space:pre-wrap;display:flex" id="3c535f9c-582c-802f-804f-f3335455efa5" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="📌"></span></div><div style="width:100%"><p id="3c535f9c-582c-8085-9c27-d63b1a806bc4" class="" dir="auto">Algunos idiomas OOP (no incluye Python) no permiten definir métodos de clases que no utilicen <code>self</code> . Así mismo, <strong>PEP8 </strong>se opone a definir un método que tome como argumento <code>self</code> , pero no lo utilice en su interior.</p></div></aside><ul id="3c535f9c-582c-802a-af4a-c43cc2d71e4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Son métodos que pertenecen a una clase, pero que no dependen de la información de la clase ni de atributos de la instancia.<ul id="3c535f9c-582c-8071-bc76-c2e1adab73f3" class="bulleted-list" dir="auto"><li style="list-style-type:circle">—&gt; no requieren ningún atributo principal como sucede con los métodos normales, o sea, <strong>no requiere </strong><code><strong>self</strong></code><strong> </strong></li></ul></li></ul><ul id="3c535f9c-582c-8044-a198-c03d062f7f04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Para declarar un método estático, solo necesitamos usar el decorador <code><strong>@staticmethod</strong></code> y nuestro método sin el <code>self</code> </li></ul><ul id="3c535f9c-582c-80d6-9817-f1ba229d776f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Luego, para ocupar un método estático afuera de la clase basta con usar <code>Clase.metodo_estatico()</code> </li></ul><details id="3c535f9c-582c-8028-bfd2-e3675c44b0f3" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><pre id="3c535f9c-582c-80bc-afd0-d6eb905db81b" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MiMath:
+
+    @staticmethod
+    def sumar(num1, num2):
+        return num1 + num2
+
+    @staticmethod
+    def restar(num1, num2):
+        return num1 - num2
+
+print(MiMath.sumar(5, 6))
+print(MiMath.restar(14, 1))</code></pre><p id="3c535f9c-582c-80b2-9137-edadc516c55d" class="" dir="auto">
+</p></div></details><h1 id="3c435f9c-582c-807c-b702-c8627bdfc849" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Diagrama de clases</h1><ul id="3c535f9c-582c-8074-9964-e371ee8f290e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Herramienta que permite visualizar fácilmente tanto las clases que componen un sistema, así como también sus atributos, métodos y las interacciones que existen entre ellas.</li></ul><ul id="3c535f9c-582c-8003-8fc0-f274b0921286" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pertenece al conjunto de herramientas provistas por el Lenguaje de Modelado Unificado (<strong>UML</strong>).</li></ul><h2 id="3c535f9c-582c-807e-9075-c36e1a24c4a8" class="" dir="auto">Elementos de un diagrama de clases</h2><figure id="3c535f9c-582c-80b1-94f8-f23e07958a1d" class="image" data-notion-image="image%208.png" dir="ltr"><a href="image%208.png"><img style="width:414.6458435058594px" src="image%208.png"/></a><figcaption>Ejemplo de diagrama de clases para representar el juego de Super Mario</figcaption></figure><h3 id="3c535f9c-582c-80be-af37-f6af26163636" class="" dir="auto">Clases</h3><ul id="3c535f9c-582c-803d-a8a6-fd0a91652d6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Se representan por un rectángulo dividido en tres niveles:<ol type="1" id="3c535f9c-582c-80c7-b8e9-d26e6b908c90" class="numbered-list" start="1" dir="auto"><li>Nombre de la clase</li></ol><ol type="1" id="3c535f9c-582c-8092-9162-e920f3590816" class="numbered-list" start="2" dir="auto"><li>Atributos → especificar nombre y tipo de variable</li></ol><ol type="1" id="3c535f9c-582c-80e5-b641-f4f1caa207bc" class="numbered-list" start="3" dir="auto"><li>Métodos → especificar nombre, parámetros que recibe y tipo de variable esperado para su retorno</li></ol><details id="3c535f9c-582c-801f-9cd4-c9e7f397375e" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><figure id="3c535f9c-582c-8098-b11d-d5d62c19a30d" class="image" data-notion-image="image%209.png" dir="ltr"><a href="image%209.png"><img style="width:338.6458435058594px" src="image%209.png"/></a></figure></div></details></li></ul><aside class="block-color-red_background callout" data-notion-callout="" data-notion-callout-icon="📌" data-notion-callout-background="red_background" style="white-space:pre-wrap;display:flex" id="3c535f9c-582c-8089-bdba-ec8018a00545" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="📌"></span></div><div style="width:100%"><p id="3c535f9c-582c-807d-8081-e5d5a38cffbf" class="" dir="auto">UML no tiene incorporada la modelación de <em>properties.</em> Sin embargo, el curso ocupa la siguiente <strong>convención</strong>:</p><ul id="3c535f9c-582c-80db-8d04-c46ba5a994f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>_atributo: int</code>  representa un <strong>atributo privado </strong>de tipo int</li></ul><ul id="3c535f9c-582c-80de-b3a7-e700e7fa5197" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>@atributo: int (getter y setter)</code>  indica una <strong>property </strong>de tipo int y tiene tanto el getter como el setter implementados.</li></ul></div></aside><h3 id="3c535f9c-582c-80df-91c7-fa4e4a954cdc" class="" dir="auto">Relaciones</h3><ul id="3c535f9c-582c-80d1-9333-f66412c6bef3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Relaciones de <strong>contención</strong><ul id="3c535f9c-582c-803a-bb1f-e58379cf9808" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Un objeto contiene a otra clase como atributo.</li></ul><ul id="3c535f9c-582c-80f0-a8a8-efad8c5874e7" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Estrictamente existen 2 tipos<details id="3c535f9c-582c-80a9-89e8-f0fd7af69e4e" open="" class="toggle" dir="auto"><summary><strong>Composición </strong>(rombo ⧫)</summary><div class="indented"><ul id="3c535f9c-582c-8003-b337-e8724d999e84" class="bulleted-list" dir="auto"><li style="list-style-type:disc">El tiempo de vida del objeto que componemos está <strong>condicionado </strong>por el tiempo de vida del objeto que lo incluye.</li></ul><ul id="3c535f9c-582c-80b6-9052-e9bfb100e491" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ej. una clase <code>Mario</code> no sigue si eliminamos la clase <code>Juego</code> </li></ul></div></details><details id="3c535f9c-582c-8071-8e5f-e67e08820a40" open="" class="toggle" dir="auto"><summary><strong>Agregación </strong>(rombo ◊)</summary><div class="indented"><ul id="3c535f9c-582c-802a-b3d5-c62728b72912" class="bulleted-list" dir="auto"><li style="list-style-type:disc">El tiempo de vida del objeto que agregamos es <strong>independiente </strong>del tiempo de vida del objeto que lo incluye.</li></ul><ul id="3c535f9c-582c-80de-989e-cb6c8694ed40" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ej. una clase <code>Bowser</code> tiene un atributo <code>self.goombas = []</code> que completa con una cadena de objetos de clase <code>Goomba</code> . Si muere <code>Bowser</code> , no necesariamente mueren los <code>Goomba</code></li></ul></div></details><ul id="3c535f9c-582c-809f-8811-c3cd4f31ef14" class="bulleted-list" dir="auto"><li style="list-style-type:square">Para el curso no se ocupa esa distinción entre rombos. En otras palabras, una relación de contención se va a denotar por  ⧫ o ◊.</li></ul></li></ul><details id="3c535f9c-582c-803b-986d-cc5ee731f380" open="" class="toggle" dir="auto"><summary>Ejemplo de diagrama de clases</summary><div class="indented"><figure id="3c535f9c-582c-80ee-9c1c-e56390d8fa70" class="image" data-notion-image="image%2010.png" dir="ltr"><a href="image%2010.png"><img style="width:338.63543701171875px" src="image%2010.png"/></a></figure></div></details></li></ul><ul id="3c535f9c-582c-80c1-b5e5-d880b9b6424a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Relaciones de <strong>herencia</strong><ul id="3c535f9c-582c-8092-8eb4-c06dd5108af7" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Una subclase hereda los atributos y métodos de una superclase.</li></ul><ul id="3c535f9c-582c-8075-8a2d-cbf48900ce05" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Se representa por una flecha que apunta hacia la superclase ( ▷)<ul id="3c535f9c-582c-80a1-8b25-d1ac67f62099" class="bulleted-list" dir="auto"><li style="list-style-type:square">En las subclases solo se ponen los métodos/atributos propios, o sea, no se repiten los heredados.</li></ul></li></ul><details id="3c535f9c-582c-80e1-9fac-e5c30eff83b7" open="" class="toggle" dir="auto"><summary>Ejemplo</summary><div class="indented"><figure id="3c535f9c-582c-80e8-b4bf-c1fd8521440f" class="image" data-notion-image="image%2011.png" dir="ltr"><a href="image%2011.png"><img style="width:338.6145935058594px" src="image%2011.png"/></a></figure></div></details></li></ul><h1 id="3c535f9c-582c-80b3-b1fb-cd1337ebb996" class="block-color-teal_background" data-notion-highlight="teal_background" dir="auto">Metaclases</h1><ul id="3c535f9c-582c-804c-b0ce-d9fa62ce3073" class="bulleted-list" dir="auto"><li style="list-style-type:disc">La razón por la que elementos se pueden guardar en variables y entregar como argumentos es porque tienen un tipo de dato, es decir, <strong>son instancias de una clase.</strong><ul id="3c735f9c-582c-80d3-9b16-d903e23fa950" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Los enteros son instancias de la clase <code>int</code> </li></ul><ul id="3c735f9c-582c-8004-a232-c5793e1a44e8" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Las listas son instancias de la clase <code>list</code> </li></ul></li></ul><ul id="3c735f9c-582c-806b-adae-ff2359cd32d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Una <strong>metaclase </strong>es una clase cuyas instancias son otras clases.</li></ul><ul id="3c735f9c-582c-80fd-a945-f5bd320cba53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">El comando <code><strong>type</strong></code><code>()</code> recibe un argumento y retorna su tipo de dato, es decir, la clase a la que pertenece la instancia.<ul id="3c735f9c-582c-8055-8b9b-d70ad57ad99f" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Si no se especifica la metaclase en la definición de una clase, se toma la metaclase por defecto en Python, o sea, <code>type</code></li></ul></li></ul><details id="3c735f9c-582c-80bd-aa3c-c5846de85fb6" open="" class="toggle" dir="auto"><summary>Para <strong>declarar que una clase tiene cierto tipo</strong> se añade el argumento por palabra clave <code>metaclass=tipo_de_clases</code></summary><div class="indented"><pre id="3c735f9c-582c-80fd-97d2-f3fe790abdc9" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Gato(metaclass=type):
+    def __init__(self, nombre):
+    self.nombre = nombre</code></pre></div></details><h2 id="3c735f9c-582c-802f-b0b9-c49df4495d02" class="" dir="auto">Creación de metaclases</h2><ul id="3c735f9c-582c-8000-9f2e-c524cc6cb1da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Las metaclases se declaran como clases que heredan de <code>type</code> </li></ul><ul id="3c735f9c-582c-8040-9a59-eb4b72d8ce4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Principal utilidad: </strong>controlar la creación e instanciación de una clase.</li></ul><details id="3c735f9c-582c-8029-9970-cb1961e1c99a" open="" class="toggle" dir="auto"><summary>Usos específicos</summary><div class="indented"><ul id="3c735f9c-582c-80b8-bda9-f525607b130e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clases que no pueden tener subclases</li></ul><ul id="3c735f9c-582c-80d0-b784-f77e6b5a7f1d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clases que queremos instanciar una única vez</li></ul></div></details><h3 id="3c735f9c-582c-807a-a363-e7a8357906ce" class="" dir="auto">Método <code>__new__</code> </h3><figure id="3c735f9c-582c-8066-8f75-f24455ce9531" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaClaseImpresora(type):
+		def __new__(cls, nombre, clases_base, diccionario):
+				# Creamos la clase usando el __new__ de type
+				clase = super().__new__(cls, nombre, clases_base, diccionario)
+				# Retornamos la clase creada
+				return clase</code></pre><figcaption>Implementación básica de <code>__new__</code> . Si queremos que se <strong>cree </strong>la clase, debemos llamar al <code>__new__</code> de <code>type</code> y retornar la clase.</figcaption></figure><ul id="3c735f9c-582c-8000-8869-c29c443f43ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite controlar la <strong>creación de una clase. </strong><details id="3c735f9c-582c-808b-9db9-fd43e60183e2" open="" class="toggle" dir="auto"><summary>Parámetros</summary><div class="indented"><ul id="3c735f9c-582c-805f-81ce-c89b4ba5d373" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>cls</code>  representa la metaclase actual</li></ul><ul id="3c735f9c-582c-803d-9399-fd36856f66f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>nombre</code>  nombre de la clase</li></ul><ul id="3c735f9c-582c-80af-a80a-e315bf33c304" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>clases_base</code>  tupla con las clases de las que hereda la clase instanciada</li></ul><ul id="3c735f9c-582c-8068-82d5-fc35a9676aae" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>diccionario</code>  contiene la información de la clase instanciada</li></ul></div></details></li></ul><details id="3c735f9c-582c-8024-b6ad-c2f593cf9628" open="" class="toggle" dir="auto"><summary>Ejemplos de uso</summary><div class="indented"><figure id="3c735f9c-582c-8070-bacd-e8c75f5945f1" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaFinal(type):
+		def __new__(cls, nombre, clases_base, diccionario):
+				# Revisamos las clases base de la clase que se está creando
+				for clase in clases_base:
+						# Si la clase es instancia de la metaclase, no puede ser creada
+						if isinstance(clase, cls):
+								print(f&#x27;No puede crearse la clase {nombre}&#x27;)
+								return None
+				print(f&#x27;Clase {nombre} creada correctamente&#x27;)
+				return super().__new__(cls, nombre, clases_base, diccionario)
+
+class NoHeredable(metaclass=MetaFinal):
+	  def __init__(self, *args, **kwargs):
+			  super().__init__(*args, **kwargs)
+
+class ClaseImposible(NoHeredable):
+		def __init__(self, *args, **kwargs):
+				super().__init__(*args, **kwargs)</code></pre><figcaption>Implementación de <code>__new__</code> que permite crear una clase que no puede heredarse, es decir,<strong> no puede tener subclases. </strong>En particular, consiste en crear una metaclase que defina este comportamiento para las clases que no son heredables. Luego, si uno crea una clase de este estilo (no-heredable) y trata de crear otra clase que la herede, entonces va a ocurrir un error.</figcaption></figure><figure id="3c735f9c-582c-80c6-97ba-d1da8ff124de" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaTransformaPaladin(type):
+		def __new__(cls, nombre, clases_base, diccionario):
+				# Cambiamos el nombre de la clase
+				nuevo_nombre = &#x27;Paladin&#x27;
+
+				# Cambiamos las clases base
+				nuevas_clases_base = (Guerrero,)
+				
+				# Actualizamos el diccionario con el nuevo atributo
+				diccionario[&#x27;defensa&#x27;] = 100
+				
+				# Llamamos al __new__ de type con los nuevos argumentos
+				clase = super().__new__(cls, nuevo_nombre, nuevas_clases_base, diccionario)
+				return clase</code></pre><figcaption>Implementación de <code>__new__</code>  que permite <strong>cambiar el nombre de la clase, las clases de las que hereda y agrega un atributo</strong></figcaption></figure><p id="3c735f9c-582c-804d-8cd2-d9bef307991e" class="" dir="auto">
+</p></div></details><h3 id="3c735f9c-582c-8000-8014-e3dccb8818ee" class="" dir="auto">Método <code>__init__</code></h3><ul id="3c735f9c-582c-80da-8717-d179c4e5a57f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite controlar la <strong>instanciación de una clase.</strong><ul id="3c735f9c-582c-80cf-8ff2-cbe603135fdf" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Ocupa los mismos parámetros que <code>__new__</code> , pero en lugar de <code>cls</code> ocupa <code>self</code> </li></ul><ul id="3c735f9c-582c-80db-9b51-dd84ae84253e" class="bulleted-list" dir="auto"><li style="list-style-type:circle">No permite modificar cosas propias de la clase como su nombre o sus clases base.</li></ul></li></ul><details id="3c735f9c-582c-80e1-a03f-cd4967520921" open="" class="toggle" dir="auto"><summary>Podrías implementar una metaclase como <code>__eq__</code> </summary><div class="indented"><pre id="3c735f9c-582c-80c6-bd73-d540f01e7466" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaClaseImpresoraInit(type):
+		def __init__(self, nombre, clases_base, diccionario):
+				# Creamos la clase usando el __init__ de type
+				clase = super().__init__(nombre, clases_base, diccionario)
+	
+				# Retornamos la clase creada
+				return clase</code></pre></div></details><details id="3c735f9c-582c-800e-a31d-cbdd0302e43d" open="" class="toggle" dir="auto"><summary>Ejemplos de uso</summary><div class="indented"><figure id="3c735f9c-582c-808a-8029-f49ffe8bd02f" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaAgregaDefensa(type):
+		def __init__(self, nombre, clases_base, diccionario):
+				# Actualizamos el diccionario agregando el atributo defensa
+				self.defensa = 100
+				clase = super().__init__(nombre, clases_base, diccionario)
+				return clase</code></pre><figcaption>Implementación de <code>__init__</code> que se encarga de instanciar la clase y agregarle un atributo</figcaption></figure></div></details><h2 id="3c735f9c-582c-80fe-911a-dffff6369fd8" class="" dir="auto">Creación de instancias</h2><ul id="3c735f9c-582c-80c2-9719-e48485bd650a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Un <em><strong>callable </strong></em>es un objeto cuyo método <code>__call__</code> está implementado.</li></ul><ul id="3c735f9c-582c-80e2-9263-f95f7c1790e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cuando uno crea una instancia hace <code>NombreClase()</code> , de modo que se llama a <code><strong>__call__</strong></code><strong> </strong>de la <strong>metaclase</strong>, que luego se encarga de llamar al <code><strong>__init__</strong></code><strong>  </strong>de la <strong>clase </strong>y así crear la instancia correctamente.<ul id="3c735f9c-582c-80b7-99fb-cf673d5257a6" class="bulleted-list" dir="auto"><li style="list-style-type:circle">—&gt; Para modificar la creación de instancias, uno puede <strong>modificar el método </strong><code><strong>__call__</strong></code>  en la metaclase.</li></ul></li></ul><ul id="3c735f9c-582c-80f5-9ccc-ca53600d2277" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>__call__</code> recibe como argumentos a <code><strong>cls</strong></code><strong>  </strong>y un número variable de argumentos (que depende de cada clase) que pueden ser organizados usando <code>*</code><code><strong>args</strong></code><strong> </strong>y <code>**</code><code><strong>kwargs</strong></code><strong> </strong></li></ul><details id="3c735f9c-582c-8041-b780-d86f6f9daea5" open="" class="toggle" dir="auto"><summary>Ejemplos de uso</summary><div class="indented"><figure id="3c735f9c-582c-8087-838d-ca97bf9e67aa" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaImprimeInstancias(type):
+		def __call__(cls, *args, **kwargs):
+				# Opcional:
+				print(&#x27;LLamando a __call__ de MetaImprimeInstancias&#x27;)
+				print(f&#x27;Instanciando la clase {cls.__name__} con args: {args} y kwargs: {kwargs}&#x27;)
+				
+				# Clave:
+				instancia = super().__call__(*args, **kwargs) #1
+				return instancia</code></pre><figcaption>Metaclase que muestra cuando se crea una instancia. (1) Esa línea permite <strong>crear la instancia. </strong>Llama al método <code>__call__</code>  de <code>type</code> , el cual se encarga de manejar la memoria y llamar al <code>__init__</code>  de la clase.</figcaption></figure><figure id="3c735f9c-582c-800e-a174-ee6040decf56" data-notion-code-syntax="python"><pre class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MetaSoloUna(type):
+		def __call__(cls, *args, **kwargs):
+				if not hasattr(cls, &#x27;instance&#x27;):
+						cls.instance = super().__call__(*args, **kwargs)
+				return cls.instance</code></pre><figcaption>Metaclase que sólo permite una y sólo una instancia de una clase (<strong>singletón</strong>). Se aprovecha de los atributos de clase, para crear uno cuyo valor sea la instancia única. Así, si al llamar a la metaclase no tiene el atributo, eso significa que no se ha instanciado todavía y, por ende, debe crearse el atributo y asignarle la instancia. Luego, retorna la instancia.</figcaption></figure></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
